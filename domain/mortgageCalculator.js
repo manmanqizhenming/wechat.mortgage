@@ -148,29 +148,6 @@ const sumPeriodicPayment = (arr,n)=>{
   return result
 }
 
-const calculateMonthLoansWithReserveFund = (currentReserveFund,monthlyReserveFund,loans)=>{
-  const paymentDetail = [];
-  const periodic = maxPeriodic(loans.map(it=>it.periodic));
-  for(var i = 0;i<periodic;i++){
-    currentReserveFund = currentReserveFund + monthlyReserveFund;
-    var monthlyActualPayment = 0;
-    var loanPayment = sumPeriodicPayment(loans,i);
-    if(currentReserveFund>=loanPayment){
-      monthlyActualPayment = 0;
-      currentReserveFund = currentReserveFund - loanPayment;
-    }else{
-      monthlyActualPayment = loanPayment - currentReserveFund
-      currentReserveFund = 0
-    }      
-    paymentDetail.push({
-      monthlyActualPayment,
-      periodic:i,
-      currentReserveFund
-    })
-  }
-  return paymentDetail
-}
-
 
 module.exports = {
   calculate: (input)=>({
@@ -191,6 +168,5 @@ module.exports = {
   }),
   staticData,
   pmt,
-  calculateMonthLoansWithReserveFund,
   calculateCost
 }

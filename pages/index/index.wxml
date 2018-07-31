@@ -1,15 +1,128 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+<!--pages/mortgage.wxml-->
+<view>
+  <view class='row'>
+    <text class='info'>房屋面积</text>
+    <input class="input" type="digit" bindinput="getInput" value="{{input.size}}" data-field="size" />
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-    <text>{{text}}</text>
-    <button bindtap="clickme">click me</button>
+  <view class='row'>
+    <text class='info'>卖家买入总价(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.buyPrice}}" data-field="buyPrice"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>卖家卖出总价(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.sellPrice}}" data-field="sellPrice"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>卖家卖出均价(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.averageSellPrice}}" data-field="averageSellPrice" disabled='true'></input>
+  </view>
+  <view class='row'>
+    <text class='info'>购房年限</text>
+    <radio-group class="radio-group" bindchange="onYearsChange">
+      <block wx:for="{{staticData.yearsList}}" wx:key="value">
+        <radio value="{{item.value}}" checked="{{item.checked}}" />{{item.display}}
+      </block>
+    </radio-group>
+  </view>
+  <view class='row'>
+    <text class='info'>是否首套房</text>
+    <switch bindchange="getInput" checked="{{input.isFirstBuy}}" data-field="isFirstBuy" />
+  </view>
+  <view class='row'>
+    <text class='info'>是否唯一</text>
+    <switch bindchange="getInput" checked="{{input.isOnlyHouse}}" data-field="isOnlyHouse" />
+  </view>
+  <view class='row'>
+    <text class='info'>是否一手动迁</text>
+    <switch bindchange="getInput" checked="{{input.isRelocated }}"   data-field="isRelocated" />
+  </view>
+  <view class='row'>
+    <text class='info'>住宅区域</text>
+    <radio-group class="radio-group" bindchange="getInput" data-field="areaId">
+      <block wx:for="{{staticData.areaList}}" wx:key="value">
+        <radio value="{{item.id}}" checked="{{input.areaId==item.id}}" />{{item.display}}
+      </block>
+      </radio-group>
+  </view>
+  <view class='row'>
+    <text class='info'>是否是普通住宅</text>
+    <switch bindchange="getInput" checked="{{ result.isGeneralResidential }}" disabled="true" />
+  </view>
+  <view class='row'>
+    <text class='info'>中介佣金(%)</text>
+    <input type="digit" bindinput="getInput" value="{{input.serviceCommissionRate}}" data-field="serviceCommissionRate"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>首付比率(%)</text>
+    <input type="digit" bindinput="getInput" value="{{input.downPaymentRate}}" data-field="downPaymentRate"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>首付(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.downPaymentAmout}}" data-field="downPaymentRate"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>公积金总额(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.currentReserveFund}}" data-field="currentReserveFund"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>每月公积金(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.monthlyReserveFund}}" data-field="monthlyReserveFund"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>存款(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.deposits}}" data-field="deposits"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>借款(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.borrow}}" data-field="borrow" disabled='true'></input>
+  </view>
+  <view class='row'>
+    <text class='info'>装修(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.decorationCost}}" data-field="decorationCost"></input>
+  </view>
+  <view class='row'>
+    <text class='info'>其他支出(万)</text>
+    <input type="digit" bindinput="getInput" value="{{input.otherCost}}" data-field="otherCost"></input>
+  </view>
+  
+  <view class='group' wx:if="{{result.tax!=null}}">
+    <text class='info'>税费</text>
+    <view class="row" wx:for="{{result.tax}}" wx:key="{{result.tax!=null}}">
+      <text style="width:30%">{{item.display}}</text>
+      <text style="width:30%">{{item.value}}</text>
+    </view>
+    <view class='row'>
+      <text class='info'>总和</text>
+      <text>{{sumTax}}</text>
+    </view>
+  </view>
+
+  <view class='group'>
+    <text class='info'>贷款详情</text>
+    <view wx:for="{{[input.loans.commercial,input.loans.housingProvidentFund]}}">
+      <view class='row'>
+        <text>{{item.name}}</text>
+      </view>
+      <view class='row'>
+        <text class='column-3'>金额(万)</text>
+        <input type="digit"value="{{item.size}}"></input>
+      </view>
+      <view class='row'>
+        <text class='column-3'>期限(年)</text>
+        <input type="digit"value="{{item.age}}"></input>
+      </view>
+      <view class='row'>
+        <text class='column-3'>利率</text>
+        <input type="digit"value="{{item.rate}}"></input>
+      </view>
+      <view class='row'>
+        <text class='column-3'>折扣</text>
+        <input type="digit"value="{{item.discount}}"></input>
+      </view>
+      <view class='row'>
+        <text class='column-3'>每月还款(万元)</text>
+        <input type="digit"value="{{item.pmtDetail.periodicPayment}}"></input>
+      </view>
+    </view>
   </view>
 </view>
