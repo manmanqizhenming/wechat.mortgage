@@ -149,24 +149,32 @@ const sumPeriodicPayment = (arr,n)=>{
 }
 
 
+const calculate =state=>{
+  var result = ({})
+  result.deedTax = calculateDeedTax(state);
+  result.addedValueTax = calculateAddedValueTax(state);
+  result.individualIncomeTax = calculateIndividualIncomeTax(state);
+  result.sumTax = result.deedTax+result.addedValueTax+result.individualIncomeTax;
+  result.serviceCommissionAmout = state.sellPrice * state.serviceCommissionRate/100;
+  result.downPaymentAmout = state.sellPrice * state.downPaymentRate/100;
+  result.loanAmount  = state.sellPrice - result.downPaymentAmout;
+  if(result.loanAmount>=state.reservedFundLoanAmount){
+    const commercialLoanAmount = result.loanAmount - state.reservedFundLoanAmount
+    result.commercialLoanAmount = commercialLoanAmount
+    result.reservedFundLoanPMT = pmt(state.reservedFundLoanAmount,state.reservedFundLoanInterestRate/100/12,state.reservedFundLoanAge*12);
+    result.commercialLoanLoanPMT = pmt(commercialLoanAmount,state.commercialLoanInterestRate * state.commercialLoanInterestRateDiscount/100/12,state.commercialLoanAge*12);
+  }else{
+    result.commercialLoanAmount = 0;
+    result.reservedFundLoanAmount = result.loanAmount;
+    result.reservedFundLoanPMT = pmt(result.loanAmount,state.reservedFundLoanInterestRate/100/12,state.reservedFundLoanAge*12);
+    result.commercialLoanLoanPMT = pmt(0,state.commercialLoanInterestRate * state.commercialLoanInterestRateDiscount/100/12,state.commercialLoanAge*12);
+  }
+  result.sumPeriodicPayment = result.commercialLoanLoanPMT.periodicPayment +  result.reservedFundLoanPMT.periodicPayment
+  //console.log(result);
+  return result;
+}
+
+
 module.exports = {
-  calculate: (input)=>({
-    tax:[{
-      value: calculateDeedTax(input),
-      display: "契税(万)",
-      order: 0
-  }, {
-      value: calculateAddedValueTax(input),
-    display: "增值税(万)",
-    order: 1
-    }, {
-      value: calculateIndividualIncomeTax(input),
-      display: "个税(万)",
-      order: 2
-    }],
-    isGeneralResidential: getIsGeneralResidential(input)
-  }),
-  staticData,
-  pmt,
-  calculateCost
+  calculate
 }

@@ -1,21 +1,24 @@
 // pages/mortgage.js
-const api = require('../../domain/mortgageCalculator.js')
-const arrayUtil = require('../../utils/util.js').array
-const state = require('../../domain/model.js')
+const service = require('./service.js')
+const state = require('./data.js')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    initState:state.initState
+    ...state
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.write(this.initState)
+    const state = this.data.state;
+    const result = service.calculate(state);
+    this.setData({
+      state:{...state,...result}
+    });
   },
 
   /**
@@ -66,39 +69,13 @@ Page({
   onShareAppMessage: function () {
   
   },
-  priceInput: function (e) {
-    this.setData({
-      size: e.detail.value,
-    })
-  },
-  onYearsChange: function(e){
-    var value = e.detail.value;
-    var data = this.data.input;
-    if(value == 0){
-      data.isMoreThan2Years = false;
-      data.isMoreThan5Years = false;
-    }else if(value ==2){
-      data.isMoreThan2Years = true;
-      data.isMoreThan5Years = false;
-    }else{
-      data.isMoreThan2Years = true;
-      data.isMoreThan5Years = true;
-    }
-    this.setData({
-      input: data
-    });
-  },
   getInput: function(e){
     var field = e.currentTarget.dataset.field;
-    var data = this.data.input;
-    data[field] = e.detail.value;
-    if (field == "sellPrice") {
-      data.averageSellPrice = data.sellPrice / data.size
-    }
-    this.setData({ input: data });
-    const result = api.calculate(this.data.input)
+    var state = this.data.state;
+    state[field] = e.detail.value;
+    const result = service.calculate(state);
     this.setData({
-      result: result
+      state:{...state,...result}
     });
   }
 })

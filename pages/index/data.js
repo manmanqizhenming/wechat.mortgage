@@ -22,7 +22,6 @@ const ageMap =  [{
     display: "满2年",
     value: "2",
   }, {
-    id:2,
     display: "满5年",
     value: "5",
   }]
@@ -39,39 +38,23 @@ const initState = {
     isRelocated:false,
     isOnlyHouse:true,
     downPaymentRate: 35,
-    //calculate result
+    age:2,
     isNormalHouse:true,
     serviceCommissionAmount:0,
     averageSellPrice: 0,
     areaId: 3,
     downPaymentAmout:0,
-    //currentReserveFund:20,
-    //monthlyReserveFund:0.66,
-    //deposits:93,
-    //decorationCost:15,
-    //otherCost:0.5,
-    //borrow:100,
-    loans:{
-      housingProvidentFund: {
-        id: 0,
-      name:"公积金贷",
-      size:0,
-      rate:3.25,
-      age:20,
-      discount: 1,
-      }, commercial: {
-        id: 1,
-        name:"商贷",
-        size: 0,
-        rate: 4.9,
-        age: 30,
-        discount: 0.95,
-      }
-    },
+    normalHouseMapId:3,
+    reservedFundLoanAmount:110,
+    reservedFundLoanInterestRate:3.25,
+    reservedFundLoanAge:20,
+    commercialLoanInterestRate:4.9,
+    commercialLoanInterestRateDiscount:0.95,
+    commercialLoanAge:30,
 }
 
 module.exports = {
-  initState,
+  state:initState,
   normalHouseMap,
   ageMap
 }
