@@ -46,7 +46,7 @@
   </view>
   <view class='row'>
     <text class='info'>是否是普通住宅</text>
-    <switch bindchange="getInput" checked="{{ result.isGeneralResidential }}" disabled="true" />
+    <switch checked="{{ state.isGeneralResidential }}" disabled="true" />
   </view>
   <view class='row'>
     <text class='info'>中介佣金(%)</text>
