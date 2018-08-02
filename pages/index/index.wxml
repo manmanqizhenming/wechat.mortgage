@@ -34,7 +34,7 @@
   </view>
   <view class='row'>
     <text class='info'>是否一手动迁</text>
-    <switch bindchange="getInput" checked="{{state.isRelocated }}"   data-field="isRelocated" />
+    <switch bindchange="getInput" checked="{{state.isRelocated }}" data-field="isRelocated" />
   </view>
   <view class='row'>
     <text class='info'>住宅区域</text>
@@ -42,91 +42,106 @@
       <block wx:for="{{normalHouseMap}}" wx:key="index">
         <radio value="{{item.id}}" checked="{{state.normalHouseMapId==item.id}}" />{{item.display}}
       </block>
-      </radio-group>
+    </radio-group>
   </view>
   <view class='row'>
     <text class='info'>是否是普通住宅</text>
-    <switch checked="{{ state.isGeneralResidential }}" disabled="true" />
+    <switch checked="{{ state.isGeneralResidential }}" disabled/>
   </view>
-  <view class='row'>
-    <text class='info'>中介佣金(%)</text>
-    <input type="digit" bindinput="getInput" value="{{state.serviceCommissionRate}}" data-field="serviceCommissionRate"></input>
+  <view class='group'>
+    <text class='info'>佣金</text>
+    <view class='row'>
+      <text class='info'>佣金比率(%)</text>
+      <input type="digit" bindinput="getInput" value="{{state.serviceCommissionRate}}" data-field="serviceCommissionRate"></input>
+    </view>
+    <view class='row'>
+      <text class='info'>佣金(万)</text>
+      <input value="{{state.serviceCommissionAmout}}" disabled></input>
+    </view>
   </view>
-  <view class='row'>
-    <text class='info'>佣金(万元)</text>
-    <input type="digit" bindinput="getInput" value="{{state.serviceCommissionAmout}}" disabled></input>
+
+  <view class='group'>
+    <text class='info'>贷款</text>
+    <view class='row'>
+      <text class='info2'>首付比率(%)</text>
+      <input type="digit" bindinput="getInput" value="{{state.downPaymentRate}}" data-field="downPaymentRate"></input>
+    </view>
+    <view class='row'>
+      <text class='info2'>公积金上限(万)</text>
+      <input type="digit" bindinput="getInput" value="{{state.maxReservedFundLoanAmount}}" data-field="maxReservedFundLoanAmount"></input>
+    </view>
+    <view class='row'>
+      <text class='info2'>首付(万)</text>
+      <input value="{{state.downPaymentAmout}}" disabled></input>
+    </view>
+    <view class='row'>
+      <text class='info2'>贷款(万)</text>
+      <input value="{{state.loanAmount}}" disabled></input>
+    </view>
+    <view class='group'>
+      <view class='row'>
+        <text class='info2'>公积金贷款(万)</text>
+        <input value="{{state.reservedFundLoanAmount}}" disabled></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>公积金利率(%)</text>
+        <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanInterestRate}}" data-field="reservedFundLoanInterestRate"></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>公积金年限(年)</text>
+        <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanAge}}" data-field="reservedFundLoanAge"></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>公积金每期(万)</text>
+        <input value="{{state.reservedFundLoanPMT.periodicPayment}}" disabled></input>
+      </view>
+    </view>
+    <view class='group'>
+      <view class='row'>
+        <text class='info2'>商业贷款(万)</text>
+        <input value="{{state.commercialLoanAmount}}" disabled></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>商贷年限(年)</text>
+        <input type="digit" bindinput="getInput" value="{{state.commercialLoanAge}}" data-field="commercialLoanAge"></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>商贷利率(%)</text>
+        <input type="digit" bindinput="getInput" value="{{state.commercialLoanInterestRate}}" data-field="commercialLoanInterestRate"></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>商贷折扣</text>
+        <input type="digit" bindinput="getInput" value="{{state.commercialLoanInterestRateDiscount}}" data-field="commercialLoanInterestRateDiscount"></input>
+      </view>
+      <view class='row'>
+        <text class='info2'>商贷每期(万)</text>
+        <input value="{{state.commercialLoanLoanPMT.periodicPayment}}" disabled></input>
+      </view>
+    </view>
+    <view class='row'>
+      <text class='info2'>每期总还款(万)</text>
+      <input value="{{state.sumPeriodicPayment}}" disabled></input>
+    </view>
   </view>
-  <view class='row'>
-    <text class='info'>首付比率(%)</text>
-    <input type="digit" bindinput="getInput" value="{{state.downPaymentRate}}" data-field="downPaymentRate"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>首付(万元)</text>
-    <input value="{{state.downPaymentAmout}}" disabled></input>
-  </view>
-  <view class='row'>
-    <text class='info'>贷款(万元)</text>
-    <input value="{{state.loanAmount}}" disabled></input>
-  </view>
-  <view class='row'>
-    <text class='info'>公积金贷款(万元)</text>
-    <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanAmount}}" data-field="reservedFundLoanAmount"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>公积金利率(%)</text>
-    <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanInterestRate}}" data-field="reservedFundLoanInterestRate"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>公积金年限(年)</text>
-    <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanAge}}" data-field="reservedFundLoanInterestRate"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>公积金每期(万元)</text>
-    <input value="{{state.reservedFundLoanPMT.periodicPayment}}" disabled></input>
-  </view>
-  <view class='row'>
-    <text class='info'>商业贷款(万元)</text>
-    <input value="{{state.commercialLoanAmount}}"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>商贷年限(年)</text>
-    <input type="digit" bindinput="getInput" value="{{state.commercialLoanAge}}" data-field="commercialLoanAge"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>商贷利率(%)</text>
-    <input type="digit" bindinput="getInput" value="{{state.commercialLoanInterestRate}}" data-field="commercialLoanInterestRate"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>商贷折扣</text>
-    <input type="digit" bindinput="getInput" value="{{state.commercialLoanInterestRateDiscount}}" data-field="commercialLoanInterestRateDiscount"></input>
-  </view>
-  <view class='row'>
-    <text class='info'>商贷每期(万元)</text>
-    <input value="{{state.commercialLoanLoanPMT.periodicPayment}}" disabled></input>
-  </view>
-  <view class='row'>
-    <text class='info'>总还款(万元)</text>
-    <input value="{{state.sumPeriodicPayment}}" disabled></input>
-  </view>
-  
-  
+
+
   <view class='group'>
     <text class='info'>税费</text>
     <view class='row'>
-        <text class='info'>增值税(万)</text>
-        <text>{{state.addedValueTax}}</text>
-      </view>
+      <text class='info'>增值税(万)</text>
+      <text>{{state.addedValueTax}}</text>
+    </view>
     <view class='row'>
-        <text class='info'>契税(万)</text>
-        <text>{{state.deedTax}}</text>
-      </view>
-      <view class='row'>
-          <text class='info'>个税(万)</text>
-          <text>{{state.individualIncomeTax}}</text>
-        </view>
+      <text class='info'>契税(万)</text>
+      <text>{{state.deedTax}}</text>
+    </view>
+    <view class='row'>
+      <text class='info'>个税(万)</text>
+      <text>{{state.individualIncomeTax}}</text>
+    </view>
     <view class='row'>
       <text class='info'>总和</text>
       <text>{{state.sumTax}}</text>
     </view>
-  </view>  
+  </view>
 </view>

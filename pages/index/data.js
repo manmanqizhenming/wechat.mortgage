@@ -16,13 +16,13 @@ const normalHouseMap = [{
     }];
 
 const ageMap =  [{
-    display: "不满2年",
+    display: "不满2",
     value: "0",
   }, {
-    display: "满2年",
+    display: "满2",
     value: "2",
   }, {
-    display: "满5年",
+    display: "满5",
     value: "5",
   }]
 
@@ -38,14 +38,13 @@ const initState = {
     isRelocated:false,
     isOnlyHouse:true,
     downPaymentRate: 35,
-    age:2,
+    age:5,
     isNormalHouse:true,
     serviceCommissionAmount:0,
     averageSellPrice: 0,
-    areaId: 3,
     downPaymentAmout:0,
     normalHouseMapId:3,
-    reservedFundLoanAmount:110,
+    maxReservedFundLoanAmount:110,
     reservedFundLoanInterestRate:3.25,
     reservedFundLoanAge:20,
     commercialLoanInterestRate:4.9,

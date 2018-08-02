@@ -74,15 +74,16 @@ const calculate =state=>{
   result.isGeneralResidential = getIsGeneralResidential(state.isRelocated,state.sellPrice,state.normalHouseMapId);
   result.deedTax = format(calculateDeedTax({...state,isGeneralResidential:result.isGeneralResidential}),4);
   result.addedValueTax = format(calculateAddedValueTax(({...state,isGeneralResidential:result.isGeneralResidential})),4);
-  result.individualIncomeTax = format(calculateIndividualIncomeTax(state),4);
+  result.individualIncomeTax = format(calculateIndividualIncomeTax({...state,isGeneralResidential:result.isGeneralResidential}),4);
   result.sumTax = result.deedTax+result.addedValueTax+result.individualIncomeTax;
   result.serviceCommissionAmout = state.sellPrice * state.serviceCommissionRate/100;
   result.downPaymentAmout = state.sellPrice * state.downPaymentRate/100;
   result.loanAmount  = state.sellPrice - result.downPaymentAmout;
-  if(result.loanAmount>=state.reservedFundLoanAmount){
-    const commercialLoanAmount = result.loanAmount - state.reservedFundLoanAmount
+  if(result.loanAmount>=state.maxReservedFundLoanAmount){
+    const commercialLoanAmount = result.loanAmount - state.maxReservedFundLoanAmount;
+    result.reservedFundLoanAmount = state.maxReservedFundLoanAmount;
     result.commercialLoanAmount = commercialLoanAmount
-    result.reservedFundLoanPMT = pmt(state.reservedFundLoanAmount,state.reservedFundLoanInterestRate/100/12,state.reservedFundLoanAge*12);
+    result.reservedFundLoanPMT = pmt(result.reservedFundLoanAmount,state.reservedFundLoanInterestRate/100/12,state.reservedFundLoanAge*12);
     result.commercialLoanLoanPMT = pmt(commercialLoanAmount,state.commercialLoanInterestRate * state.commercialLoanInterestRateDiscount/100/12,state.commercialLoanAge*12);
   }else{
     result.commercialLoanAmount = 0;

@@ -13,6 +13,10 @@ switch{
 .info{
   width:30%
 }
+
+.info2{
+  width:50%
+}
 .input{
   width: 50%;
   height:70%;
