@@ -13,7 +13,9 @@ switch{
 .info{
   width:30%
 }
-
+.info40{
+   width:40%
+}
 .info2{
   width:50%
 }

@@ -1,19 +1,19 @@
 <!--pages/mortgage.wxml-->
 <view>
   <view class='row'>
-    <text class='info'>房屋面积</text>
+    <text class='info40'>房屋面积</text>
     <input class="input" type="digit" bindinput="getInput" value="{{state.size}}" data-field="size" />
   </view>
   <view class='row'>
-    <text class='info'>卖家买入总价(万)</text>
+    <text class='info40'>卖家买入总价(万)</text>
     <input type="digit" bindinput="getInput" value="{{state.buyPrice}}" data-field="buyPrice"></input>
   </view>
   <view class='row'>
-    <text class='info'>卖家卖出总价(万)</text>
+    <text class='info40'>卖家卖出总价(万)</text>
     <input type="digit" bindinput="getInput" value="{{state.sellPrice}}" data-field="sellPrice"></input>
   </view>
   <view class='row'>
-    <text class='info'>卖家卖出均价(万)</text>
+    <text class='info40'>卖家卖出均价(万)</text>
     <input type="digit" bindinput="getInput" value="{{state.averageSellPrice}}" data-field="averageSellPrice" disabled='true'></input>
   </view>
   <view class='row'>
@@ -49,14 +49,22 @@
     <switch checked="{{ state.isGeneralResidential }}" disabled/>
   </view>
   <view class='group'>
-    <text class='info'>佣金</text>
+    <text class='info'>税费</text>
     <view class='row'>
-      <text class='info'>佣金比率(%)</text>
-      <input type="digit" bindinput="getInput" value="{{state.serviceCommissionRate}}" data-field="serviceCommissionRate"></input>
+      <text class='info'>增值税(万)</text>
+      <text>{{state.addedValueTax}}</text>
     </view>
     <view class='row'>
-      <text class='info'>佣金(万)</text>
-      <input value="{{state.serviceCommissionAmout}}" disabled></input>
+      <text class='info'>契税(万)</text>
+      <text>{{state.deedTax}}</text>
+    </view>
+    <view class='row'>
+      <text class='info'>个税(万)</text>
+      <text>{{state.individualIncomeTax}}</text>
+    </view>
+    <view class='row'>
+      <text class='info'>总和</text>
+      <text>{{state.sumTax}}</text>
     </view>
   </view>
 
@@ -123,25 +131,15 @@
       <input value="{{state.sumPeriodicPayment}}" disabled></input>
     </view>
   </view>
-
-
   <view class='group'>
-    <text class='info'>税费</text>
+    <text class='info'>佣金</text>
     <view class='row'>
-      <text class='info'>增值税(万)</text>
-      <text>{{state.addedValueTax}}</text>
+      <text class='info'>佣金比率(%)</text>
+      <input type="digit" bindinput="getInput" value="{{state.serviceCommissionRate}}" data-field="serviceCommissionRate"></input>
     </view>
     <view class='row'>
-      <text class='info'>契税(万)</text>
-      <text>{{state.deedTax}}</text>
-    </view>
-    <view class='row'>
-      <text class='info'>个税(万)</text>
-      <text>{{state.individualIncomeTax}}</text>
-    </view>
-    <view class='row'>
-      <text class='info'>总和</text>
-      <text>{{state.sumTax}}</text>
+      <text class='info'>佣金(万)</text>
+      <input value="{{state.serviceCommissionAmout}}" disabled></input>
     </view>
   </view>
 </view>
