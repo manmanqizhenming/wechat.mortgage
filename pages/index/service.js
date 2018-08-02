@@ -9,6 +9,9 @@ const {normalHouseMap} = require('./data');
  }
 
 const calculateAddedValueTax = ({isRelocated,age,sellPrice,buyPrice})=>{
+  if(buyPrice>=sellPrice){
+    return 0;
+  }
   if(isRelocated){
     return 0;
   }
@@ -71,6 +74,9 @@ const format = (number,n)=>Math.round(number * Math.pow(10,n))/Math.pow(10,n)
 
 const calculate =state=>{
   var result = ({})
+  if(state.downPaymentRate>=100){
+    state.downPaymentRate = 100;
+  }
   result.isGeneralResidential = getIsGeneralResidential(state.isRelocated,state.sellPrice,state.normalHouseMapId);
   result.deedTax = format(calculateDeedTax({...state,isGeneralResidential:result.isGeneralResidential}),4);
   result.addedValueTax = format(calculateAddedValueTax(({...state,isGeneralResidential:result.isGeneralResidential})),4);
