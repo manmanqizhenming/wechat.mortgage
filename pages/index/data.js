@@ -26,6 +26,20 @@ const ageMap =  [{
     value: "5",
   }]
 
+const commercialLoanInterestRateDiscounts = [0.9,0.95,1,1.05,1.1]
+
+const range = (start,count,diff  = 1)=>{
+  var result = [];
+  var value = start;
+  for(var i = 0;i < count;i++){
+    result.push(value);
+    value += diff
+  }
+  return result;
+}
+
+const loanAges = range(1,30);
+
 const initState = {
     //input
     size: 89,
@@ -46,14 +60,16 @@ const initState = {
     normalHouseMapId:3,
     maxReservedFundLoanAmount:110,
     reservedFundLoanInterestRate:3.25,
-    reservedFundLoanAge:20,
+    reservedFundLoanAgeIndex:19,
     commercialLoanInterestRate:4.9,
-    commercialLoanInterestRateDiscount:0.95,
-    commercialLoanAge:30,
+    commercialLoanInterestRateDiscountIndex:1,
+    commercialLoanAgeIndex:29,
 }
 
 module.exports = {
   state:initState,
   normalHouseMap,
-  ageMap
+  ageMap,
+  commercialLoanInterestRateDiscounts,
+  loanAges
 }

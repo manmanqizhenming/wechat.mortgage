@@ -69,6 +69,10 @@ Page({
   onShareAppMessage: function () {
   
   },
+
+  onPickerChange:function(e){
+    console.log(e);
+  },
   getInput: function(e){
     var field = e.currentTarget.dataset.field;
     var state = this.data.state;

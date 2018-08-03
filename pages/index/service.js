@@ -1,4 +1,6 @@
-const {normalHouseMap} = require('./data');
+const {normalHouseMap,
+  commercialLoanInterestRateDiscounts,
+  loanAges} = require('./data');
 
  const getIsGeneralResidential = (isRelocate,sellPrice,normalHouseId)=>{
    if(isRelocate){
@@ -9,16 +11,16 @@ const {normalHouseMap} = require('./data');
  }
 
 const calculateAddedValueTax = ({isRelocated,age,sellPrice,buyPrice})=>{
-  if(buyPrice>=sellPrice){
+  if(parseInt(buyPrice)>=parseInt(sellPrice)){
     return 0;
   }
   if(isRelocated){
     return 0;
   }
   if(age==0){
-    return sellPrice/1.05*0.05
+    return sellPrice/1.05*0.055
   }else{
-    return (sellPrice - buyPrice)/1.05*0.05
+    return (sellPrice - buyPrice)/1.05*0.055
   }
 }
 
@@ -85,17 +87,20 @@ const calculate =state=>{
   result.serviceCommissionAmout = state.sellPrice * state.serviceCommissionRate/100;
   result.downPaymentAmout = state.sellPrice * state.downPaymentRate/100;
   result.loanAmount  = state.sellPrice - result.downPaymentAmout;
+  const commercialLoanInterestRateDiscount = commercialLoanInterestRateDiscounts[state.commercialLoanInterestRateDiscountIndex]
+  const commercialLoanAge = loanAges[state.commercialLoanAgeIndex];
+  const reservedFundLoanAge = loanAges[state.reservedFundLoanAgeIndex];
   if(result.loanAmount>=state.maxReservedFundLoanAmount){
     const commercialLoanAmount = result.loanAmount - state.maxReservedFundLoanAmount;
     result.reservedFundLoanAmount = state.maxReservedFundLoanAmount;
     result.commercialLoanAmount = commercialLoanAmount
-    result.reservedFundLoanPMT = pmt(result.reservedFundLoanAmount,state.reservedFundLoanInterestRate/100/12,state.reservedFundLoanAge*12);
-    result.commercialLoanLoanPMT = pmt(commercialLoanAmount,state.commercialLoanInterestRate * state.commercialLoanInterestRateDiscount/100/12,state.commercialLoanAge*12);
+    result.reservedFundLoanPMT = pmt(result.reservedFundLoanAmount,state.reservedFundLoanInterestRate/100/12,reservedFundLoanAge*12);
+    result.commercialLoanLoanPMT = pmt(commercialLoanAmount,state.commercialLoanInterestRate * commercialLoanInterestRateDiscount/100/12,commercialLoanAge*12);
   }else{
     result.commercialLoanAmount = 0;
     result.reservedFundLoanAmount = result.loanAmount;
-    result.reservedFundLoanPMT = pmt(result.loanAmount,state.reservedFundLoanInterestRate/100/12,state.reservedFundLoanAge*12);
-    result.commercialLoanLoanPMT = pmt(0,state.commercialLoanInterestRate * state.commercialLoanInterestRateDiscount/100/12,state.commercialLoanAge*12);
+    result.reservedFundLoanPMT = pmt(result.loanAmount,state.reservedFundLoanInterestRate/100/12,reservedFundLoanAge*12);
+    result.commercialLoanLoanPMT = pmt(0,state.commercialLoanInterestRate * commercialLoanInterestRateDiscount /100/12,commercialLoanAge*12);
   }
   result.averageSellPrice = format(state.sellPrice/state.size,4);
   result.sumPeriodicPayment = format(result.commercialLoanLoanPMT.periodicPayment +  result.reservedFundLoanPMT.periodicPayment,4);

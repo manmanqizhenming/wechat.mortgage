@@ -96,8 +96,8 @@
         <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanInterestRate}}" data-field="reservedFundLoanInterestRate"></input>
       </view>
       <view class='row'>
-        <text class='info2'>公积金年限(年)</text>
-        <input type="digit" bindinput="getInput" value="{{state.reservedFundLoanAge}}" data-field="reservedFundLoanAge"></input>
+        <text class='info2'>公积金年限(年)</text>       
+        <picker value="{{state.reservedFundLoanAgeIndex}}" range="{{loanAges}}" data-field="reservedFundLoanAgeIndex" bindchange="getInput">{{loanAges[state.reservedFundLoanAgeIndex]}}</picker>
       </view>
       <view class='row'>
         <text class='info2'>公积金每期(万)</text>
@@ -111,15 +111,15 @@
       </view>
       <view class='row'>
         <text class='info2'>商贷年限(年)</text>
-        <input type="digit" bindinput="getInput" value="{{state.commercialLoanAge}}" data-field="commercialLoanAge"></input>
+        <picker value="{{state.commercialLoanAgeIndex}}" range="{{loanAges}}" data-field="commercialLoanAgeIndex" bindchange="getInput">{{loanAges[state.commercialLoanAgeIndex]}}</picker>
       </view>
       <view class='row'>
         <text class='info2'>商贷利率(%)</text>
         <input type="digit" bindinput="getInput" value="{{state.commercialLoanInterestRate}}" data-field="commercialLoanInterestRate"></input>
       </view>
       <view class='row'>
-        <text class='info2'>商贷折扣</text>
-        <input type="digit" bindinput="getInput" value="{{state.commercialLoanInterestRateDiscount}}" data-field="commercialLoanInterestRateDiscount"></input>
+        <text class='info2'>商贷折扣(万)</text>
+        <picker value="{{state.commercialLoanInterestRateDiscountIndex}}" range="{{commercialLoanInterestRateDiscounts}}" bindchange="getInput" data-field="commercialLoanInterestRateDiscountIndex">{{commercialLoanInterestRateDiscounts[state.commercialLoanInterestRateDiscountIndex]}}</picker>
       </view>
       <view class='row'>
         <text class='info2'>商贷每期(万)</text>
